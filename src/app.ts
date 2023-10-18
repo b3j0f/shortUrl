@@ -1,7 +1,7 @@
 import express from 'express'
 import type { Application, Request, Response } from 'express'
 
-import { getShortUrlStat, newShortUrl, getOriginalUrl } from './url'
+import { getShortUrlStat, newShortUrlStat, getOriginalUrl } from './url'
 
 const HOST: string = process.env.HOST ?? '0.0.0.0'
 const PORT: number = parseInt(process.env.PORT ?? '3000')
@@ -26,7 +26,7 @@ app.get('/api/shorturl/:shorturl', (req: Request, res: Response) => {
 
 app.post('/api/shorturl', (req: Request, res: Response) => {
   try {
-    newShortUrl(req.body)
+    newShortUrlStat(req.body)
   } catch {
     res.send({ error: 'invalid Url' })
   }
