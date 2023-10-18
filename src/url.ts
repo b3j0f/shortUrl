@@ -1,19 +1,12 @@
 import { nanoid } from 'nanoid'
 
-export interface ShortUrl {
-  originalUrl: string
-  shortUrl: string
-}
-
-export interface ShortUrlStat extends ShortUrl {
-  nbClicks: number
-}
+import type { ShortUrl, ShortUrlStat } from './types/url'
 
 const statsByShortUrl: Record<string, ShortUrlStat> = {}
 
 export const newShortUrl = (url: string): ShortUrl => {
   const originalUrl = new URL(url).toString() // test if originalUrl is a valid url
-  const shortUrl = nanoid()
+  const shortUrl = nanoid(6)
 
   const result: ShortUrlStat = { originalUrl, shortUrl, nbClicks: 0 }
 

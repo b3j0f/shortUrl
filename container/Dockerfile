@@ -28,7 +28,8 @@ RUN yarn run dev
 
 FROM sources AS packaging
 
-RUN yarn install --silent --production
+ENV NODE_ENV production
+RUN yarn install --silent
 RUN yarn global add pkg tsc
 RUN tsc ./src/app.ts
 RUN pkg ./dist/app.js -o shorturl

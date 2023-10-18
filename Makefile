@@ -29,9 +29,3 @@ top:
 
 up:
 	$(DOCKER_COMPOSE) up # -d --remove-orphans
-
-env:
-	cp .env.default .env
-
-ngrok:
-	ngrok http 3000
