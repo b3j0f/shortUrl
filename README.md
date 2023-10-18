@@ -2,14 +2,12 @@
 
 This technical test is about a shortener url service implemented in typescript.
 
+## Setup
+
+- [docker](https://www.docker.com/): for interoperability and deployment pre-test concerns. Optionnally, you can install the cli tools [docker-compose](https://docs.docker.com/compose/) and [make](https://www.gnu.org/software/make/) in order to implify container management.
+- [yarn](https://classic.yarnpkg.com/): to manage the service implementation, build a binary and test sources.
+
 ## Execution
-
-The execution is possible in two environments:
-
-- [docker](https://www.docker.com/): for interoperability and deployment pre-test concerns. Depends on the cli tool [make](https://www.gnu.org/software/make/).
-- [yarn](https://classic.yarnpkg.com/): you know, it is a typescript project...
-
-## Production
 
 ### Environment variables
 
@@ -19,29 +17,25 @@ The project uses those environment variables:
 - `HOST`: service host. `0.0.0.0` by default.
 - `NODE_ENV`: service execution environment. `development` by default.
 
-### Docker
+### Commands
 
-```make up```: pull images, kill orphan containers and start containers in background.
+#### Docker
 
-### Yarn
+- ```make up```: pull images, kill orphan containers and start containers in background.
+- ```make dev```: kill orphan docker containers and start docker containers in dev mode in background.
 
-```yarn start```: start the shorturl service in production mode.
+#### Yarn
 
-## Development
+- ```yarn start```: start the shorturl service in production mode.
+- ```yarn lint```: lint the source files.
+- ```yarn test```: launch the tests and display test coverage.
+- ```yarn dev```: start the shorturl service in dev mode (hot reload) in local.
 
-### Docker
+### Sources
 
-```make dev```: kill orphan docker containers and start docker containers in dev mode in background.
+Source codes are in the directory `src` contains all source files.
 
-### Yarn
-
-```yarn lint```: lint the source files.
-```yarn test```: launch the tests.
-```yarn dev```: start the shorturl service in dev mode in local.
-
-### Configuration
-
-Configuration files are at the root:
+Dev configuration files are at the root:
 
 - package.json: package management.
 - .eslintrc.json: linter Eslint.
@@ -50,14 +44,10 @@ Configuration files are at the root:
 - tsconfig: typescript.
 - yarn.lock: project dependencies listing.
 
-### Sources
-
-The directory `src` contains all source files.
-
 ### Tests
 
-The directory `tests` contains all test files.
+The directory `tests` contains all test files separataed in both unit tests and integration tests.
 
 ### Containers
 
-The directory `container` contains docker and docker-compose files.
+The directory `container` contains a Dockerfile image and a docker-compose file.
