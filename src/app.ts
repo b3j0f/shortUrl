@@ -1,20 +1,21 @@
 import express from 'express'
+import type { Application, Request, Response } from 'express'
 
 import { getShortUrlStat, newShortUrl, getOriginalUrl } from './url'
 
 const HOST: string = process.env.HOST ?? '0.0.0.0'
 const PORT: number = parseInt(process.env.PORT ?? '3000')
 
-const app = express()
+const app: Application = express()
 
 app.use(express.json()) // for parsing application/json
 app.use(express.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
 
-app.get('/ping', (_, res) => {
+app.get('/ping', (_, res: Response) => { // health check
   res.send('pong')
 })
 
-app.get('/api/shorturl/:shorturl', (req, res) => {
+app.get('/api/shorturl/:shorturl', (req: Request, res: Response) => {
   const originalUrl = getOriginalUrl(req.params.shorturl)
   if (originalUrl === undefined) {
     return res.send(404)
@@ -23,7 +24,7 @@ app.get('/api/shorturl/:shorturl', (req, res) => {
   res.redirect(originalUrl)
 })
 
-app.post('/api/shorturl', (req, res) => {
+app.post('/api/shorturl', (req: Request, res: Response) => {
   try {
     newShortUrl(req.body)
   } catch {
@@ -31,7 +32,7 @@ app.post('/api/shorturl', (req, res) => {
   }
 })
 
-app.get('/api/shorturl/analytics', (req, res) => {
+app.get('/api/shorturl/analytics', (req: Request, res: Response) => {
   res.send(getShortUrlStat(req.body))
 })
 
