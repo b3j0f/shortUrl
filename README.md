@@ -68,7 +68,3 @@ The architecture use logical layers and IoC to implement the server.
 The directory `tests` contains all test files separataed in both `unit tests` and `integration tests`.
 
 The hierarchy in `unit tests` and `integration tests` respect the hierarchy of the sources in `src`.
-
-### Container
-
-The directory `container` contains a Dockerfile image and a docker-compose file.

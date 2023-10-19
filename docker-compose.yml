@@ -4,9 +4,7 @@ version: '2'
 services:
   shorturl:
     container_name: shorturl
-    build:
-      dockerfile: ./container/Dockerfile
-      context: ..
+    build: .
     ports:
       - "3000:3000"
 # later, we could be able to add other services for local execution purposes (database, authent, etc.)

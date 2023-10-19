@@ -1,4 +1,4 @@
-DOCKER_COMPOSE=docker-compose --project-name shorturl --project-directory container
+DOCKER_COMPOSE=docker-compose --project-name shorturl
 
 config:
 	$(DOCKER_COMPOSE) config
