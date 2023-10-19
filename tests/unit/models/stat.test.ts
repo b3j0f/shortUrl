@@ -1,24 +1,32 @@
 import { describe, expect, test } from '@jest/globals'
-import { NANOID_SIZE, Stat } from '../../../src/models/stat'
+import config from '../../../src/config'
+import { ShortUrlStatImpl } from '../../../src/models/stat'
+import { statToResponse } from '../../../src/lib/shortUrl'
 
 describe('Stat', () => {
   test('lunii is an invalid url', () => {
-    expect(() => new Stat('')).toThrowError('invalid url')
-    expect(() => new Stat('https://lunii')).toThrowError('invalid url')
+    expect(() => new ShortUrlStatImpl('')).toThrowError('invalid URL')
+    expect(() => new ShortUrlStatImpl('https://lunii')).toThrowError('invalid URL')
   })
 
   test('lunii url', () => {
     const originalUrl = 'https://lunii.com'
-    const stat = new Stat(originalUrl)
-    expect(stat.shortUrl.length).toEqual(NANOID_SIZE)
-    expect(stat.originalUrl).toEqual(originalUrl)
-    expect(stat.nbClicks).toEqual(0)
+    const stat = new ShortUrlStatImpl(originalUrl)
+
+    // test saved stat
+    expect(stat.shortUrl.length).toBe(config.shortUrlLength)
+    expect(stat.originalUrl).toBe(originalUrl)
+
+    // test nbClicks
+    expect(stat.nbClicks).toBe(0)
     const nbClicks = Math.round(Math.random() * 100)
     for (let i = 0; i < nbClicks; i++) {
       stat.click()
     }
     expect(stat.nbClicks).toBe(nbClicks)
-    expect(stat.json).toEqual({
+
+    // test saved stat
+    expect(statToResponse(stat)).toEqual({
       originalUrl: stat.originalUrl,
       shortUrl: stat.shortUrl,
       nbClicks

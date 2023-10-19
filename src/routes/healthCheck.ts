@@ -1,0 +1,11 @@
+import type { Application, Response } from 'express'
+
+export const ping = (app: Application): void => { // health check
+  app.get('/ping', (_, res: Response): void => {
+    res.send('pong').end()
+  })
+}
+
+export default (app: Application): void => { // health check
+  ping(app)
+}

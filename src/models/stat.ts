@@ -1,28 +1,26 @@
 import { nanoid } from 'nanoid'
 import { checkHttpUrl } from '../lib/url'
 
-export const NANOID_SIZE = parseInt(process.env.NANOID ?? '6')
+import config from '../config'
+import type { ShortUrlStat } from '../types/stat'
 
-interface ShortModelItf {
-  originalUrl: string
-  shortUrl: string
-}
-
-interface StatModelItf extends ShortModelItf {
-  nbClicks: number
-}
-
-export class Stat {
+export class ShortUrlStatImpl implements ShortUrlStat {
   readonly originalUrl: string
-  readonly shortUrl: string = nanoid(NANOID_SIZE)
-  private _nbClicks: number = 0
+  readonly shortUrl: string
+  private _nbClicks: number
 
-  constructor (originalUrl: string) {
+  constructor (
+    originalUrl: string,
+    shortUrl: string = nanoid(config.shortUrlLength),
+    nbClicks: number = 0
+  ) {
     if (!checkHttpUrl(originalUrl)) {
-      throw new Error('invalid url')
+      throw new Error('invalid URL')
     }
 
     this.originalUrl = originalUrl
+    this.shortUrl = shortUrl
+    this._nbClicks = nbClicks
   }
 
   get nbClicks (): number {
@@ -31,13 +29,5 @@ export class Stat {
 
   click (): void {
     this._nbClicks++
-  }
-
-  get json (): StatModelItf {
-    return {
-      originalUrl: this.originalUrl,
-      nbClicks: this.nbClicks,
-      shortUrl: this.shortUrl
-    }
   }
 }

@@ -1,14 +1,18 @@
 import { describe, expect, test } from '@jest/globals'
-import { Store } from '../../../src/models/store'
-import { Stat } from '../../../src/models/stat'
+import { StoreImpl } from '../../../src/models/store'
+import { ShortUrlStatImpl } from '../../../src/models/stat'
+import { statToResponse } from '../../../src/lib/shortUrl'
 
-const store = new Store()
+const store = new StoreImpl()
 
 describe('store', () => {
-  test('key', () => {
-    const stat = new Stat('https://lunii.com')
+  test('key exist', () => {
+    const stat = new ShortUrlStatImpl('https://lunii.com')
     expect(store.getStat(stat.shortUrl)).toBeUndefined()
+
     store.saveStat(stat)
     expect(store.getStat(stat.shortUrl)).toEqual(stat)
+
+    expect(store.getStats()).toEqual([statToResponse(stat)])
   })
 })

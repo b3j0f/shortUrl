@@ -31,7 +31,7 @@ FROM sources AS packaging
 ENV NODE_ENV production
 RUN yarn install --silent
 RUN yarn global add pkg tsc
-RUN tsc ./src/app.ts
+RUN tsc ./src/main.ts
 RUN pkg ./dist/app.js -o shorturl
 
 FROM scratch AS prod

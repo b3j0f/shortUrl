@@ -1,35 +1,38 @@
-import { Stat } from '../models/stat'
-import { Store, type StoreItf } from '../models/store'
-import { EventEmitter, type EventEmitterItf } from '../subscribers/emitter'
-import type { ShortUrlStat } from '../types/url'
+import { ShortUrlStatImpl } from '../models/stat'
+import { StoreImpl } from '../models/store'
+import { EventEmitterImpl } from '../subscribers/emitter'
+import type { ShortUrlStat } from '../types/stat'
+import type { Store } from '../types/store'
+import type { EventEmitter } from '../types/subscribers'
+import { ShortUrlStatResponse } from '../types/url'
 
 export class ShortUrl {
-  shortUrlStatStore: StoreItf
-  eventEmitter: EventEmitterItf
+  store: Store
+  eventEmitter: EventEmitter
 
-  constructor (shortUrlStatStore: StoreItf = new Store(), eventEmitter: EventEmitterItf = new EventEmitter()) {
-    this.shortUrlStatStore = shortUrlStatStore
+  constructor (store: Store = new StoreImpl(), eventEmitter: EventEmitter = new EventEmitterImpl()) {
+    this.store = store
     this.eventEmitter = eventEmitter
   }
 
-  postUrl (originalUrl: string): ShortUrlStat {
-    const stat = new Stat(originalUrl)
+  registerUrl (originalUrl: string): ShortUrlStat {
+    const stat = new ShortUrlStatImpl(originalUrl)
 
-    this.shortUrlStatStore.saveStat(stat)
+    this.store.saveStat(stat)
 
     return stat
   }
 
-  getStat (shortUrl: string): ShortUrlStat | undefined {
-    return this.shortUrlStatStore.getStat(shortUrl)
+  getStats (): ShortUrlStatResponse[] {
+    return this.store.getStats()
   }
 
   click (shortUrl: string): string | undefined {
-    const stat = this.shortUrlStatStore.getStat(shortUrl)
+    const stat = this.store.getStat(shortUrl)
 
     if (stat !== undefined) {
       stat.click()
-      this.shortUrlStatStore.saveStat(stat)
+      this.store.saveStat(stat)
     }
 
     return stat?.originalUrl

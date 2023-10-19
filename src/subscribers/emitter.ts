@@ -1,10 +1,16 @@
-import type { EventType } from './type'
+import type { ShortUrlStat } from '../types/stat'
+import type { EventEmitter, EventTracker, EventType } from '../types/subscribers'
 
-export interface EventEmitterItf {
-  emit: (eventType: EventType) => any
-}
+export class EventEmitterImpl implements EventEmitter {
+  trackers?: EventTracker[]
 
-export class EventEmitter implements EventEmitterItf {
-  emit (eventType: EventType): any {
+  constructor (trackers?: EventTracker[]) {
+    this.trackers = trackers
+  }
+
+  emit (eventType: EventType, stat: ShortUrlStat): void {
+    for (const tracker of this.trackers ?? []) {
+      tracker.on(eventType, stat)
+    }
   }
 }

@@ -1,11 +1,9 @@
-import type { ShortUrlStat } from '../types/url'
+import { statToResponse } from '../lib/shortUrl'
+import type { ShortUrlStat } from '../types/stat'
+import type { Store } from '../types/store'
+import type { ShortUrlStatResponse } from '../types/url'
 
-export interface StoreItf {
-  saveStat: (stat: ShortUrlStat) => void
-  getStat: (shortUrl: string) => ShortUrlStat | undefined
-}
-
-export class Store implements StoreItf {
+export class StoreImpl implements Store {
   statsByShortUrl: Record<string, ShortUrlStat>
   constructor (statsByShortUrl: Record<string, ShortUrlStat> = {}) {
     this.statsByShortUrl = statsByShortUrl
@@ -13,6 +11,10 @@ export class Store implements StoreItf {
 
   saveStat (stat: ShortUrlStat): void {
     this.statsByShortUrl[stat.shortUrl] = stat
+  }
+
+  getStats (): ShortUrlStatResponse[] {
+    return Object.values(this.statsByShortUrl).map(statToResponse)
   }
 
   getStat (shortUrl: string): ShortUrlStat | undefined {
