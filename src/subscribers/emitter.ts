@@ -1,6 +1,8 @@
-import type { ShortUrlStat } from '../types/stat'
 import type { EventEmitter, EventTracker, EventType } from '../types/subscribers'
 
+/**
+ * In charge of notifying trackers about event types.
+ */
 export class EventEmitterImpl implements EventEmitter {
   trackers?: EventTracker[]
 
@@ -8,9 +10,7 @@ export class EventEmitterImpl implements EventEmitter {
     this.trackers = trackers
   }
 
-  emit (eventType: EventType, stat: ShortUrlStat): void {
-    for (const tracker of this.trackers ?? []) {
-      tracker.on(eventType, stat)
-    }
+  emit (eventType: EventType, params: any): void {
+    this.trackers?.forEach(tracker => tracker.on(eventType, params))
   }
 }

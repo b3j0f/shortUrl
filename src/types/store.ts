@@ -1,8 +1,11 @@
-import type { ShortUrlStat } from './stat'
-import type { ShortUrlStatResponse } from './url'
+import type { ShortUrlData } from './stat'
+import type { AnalyticResponse } from './url'
 
+/**
+ * In charge of storing `ShortUrlStat`s
+ */
 export interface Store {
-  saveStat: (stat: ShortUrlStat) => void
-  getStats: () => ShortUrlStatResponse[]
-  getStat: (shortUrl: string) => ShortUrlStat | undefined
+  saveStat: (stat: ShortUrlData) => void
+  getStats: () => AnalyticResponse[]
+  getStat: (shortUrl: string) => ShortUrlData | undefined
 }

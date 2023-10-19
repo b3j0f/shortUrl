@@ -1,6 +1,9 @@
-import type { ShortUrlResponse, ShortUrlStatResponse } from '../types/url'
+import type { RegistrationResponse, AnalyticResponse } from '../types/url'
 
-export const toStatResponse = (stat: ShortUrlStatResponse): ShortUrlStatResponse => {
+/**
+ * Remove useless properties from input parameter in order to match return type.
+ */
+export const toStatResponse = (stat: AnalyticResponse): AnalyticResponse => {
   return {
     originalUrl: stat.originalUrl,
     nbClicks: stat.nbClicks,
@@ -8,7 +11,10 @@ export const toStatResponse = (stat: ShortUrlStatResponse): ShortUrlStatResponse
   }
 }
 
-export const toResponse = (resp: ShortUrlResponse): ShortUrlResponse => {
+/**
+ * Remove useless properties from input parameters in order to match return type.
+ */
+export const toResponse = (resp: RegistrationResponse): RegistrationResponse => {
   return {
     originalUrl: resp.originalUrl,
     shortUrl: resp.shortUrl

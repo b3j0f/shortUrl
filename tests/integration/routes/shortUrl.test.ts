@@ -2,7 +2,7 @@ import { describe, test, expect } from '@jest/globals'
 import request from 'supertest'
 
 import app from '../../../src/loaders/app'
-import { ShortUrlStatImpl } from '../../../src/models/stat'
+import { ShortUrlDataImpl } from '../../../src/models/shortUrl'
 import { toStatResponse } from '../../../src/lib/shortUrl'
 
 describe('redirect', () => {
@@ -27,7 +27,7 @@ describe('redirect', () => {
     const stats = await Promise.all(urls.map(async url => {
       const registrationResp = await request(app).post('/api/shorturl').send({ url })
 
-      const stat = new ShortUrlStatImpl(url, registrationResp.body.shortUrl, 1)
+      const stat = new ShortUrlDataImpl(url, registrationResp.body.shortUrl, 1)
 
       expect(registrationResp.body.originalUrl).toBe(url)
 

@@ -27,11 +27,5 @@ rm:
 top:
 	$(DOCKER_COMPOSE) top
 
-dev:
-	$(DOCKER_COMPOSE) up dev
-
-test:
-	$(DOCKER_COMPOSE) up test
-
-prod:
-	$(DOCKER_COMPOSE) up prod
+up:
+	$(DOCKER_COMPOSE) up

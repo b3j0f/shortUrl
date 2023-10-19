@@ -1,5 +1,8 @@
-import type { ShortUrlStatResponse } from './url'
+import type { AnalyticResponse } from './url'
 
-export interface ShortUrlStat extends ShortUrlStatResponse {
+/**
+ * ShortUrlStatResponse dedicated to increment nbClicks
+ */
+export interface ShortUrlData extends AnalyticResponse {
   click: () => void
 }

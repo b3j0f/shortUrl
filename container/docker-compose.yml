@@ -2,34 +2,11 @@
 version: '2'
 
 services:
-  dev:
-    container_name: shorturl-dev
-    build:
-      dockerfile: ./container/Dockerfile
-      context: ..
-      target: dev
-    command: yarn run dev
-    volumes:
-      - .:/app/
-      - /app/node_modules
-    ports:
-      - "3000:3000"
-  test:
-    container_name: shorturl-test
-    build:
-      dockerfile: ./container/Dockerfile
-      context: ..
-      target: test
-    command: yarn run test
-    volumes:
-      - .:/app/
-      - /app/node_modules
-    ports:
-      - "3000:3000"
-  prod:
+  shortUrl:
     container_name: shorturl
     build:
       dockerfile: ./container/Dockerfile
       context: ..
     ports:
       - "3000:3000"
+# later, we could be able to add other services for local execution purposes (database, authent, etc.)

@@ -1,8 +1,8 @@
 import { describe, expect, test } from '@jest/globals'
 import { toResponse, toStatResponse } from '../../../src/lib/shortUrl'
-import type { ShortUrlStatResponse } from '../../../src/types/url'
+import type { AnalyticResponse } from '../../../src/types/url'
 
-class ShortUrlStatImpl implements ShortUrlStatResponse {
+class ShortUrlStatImpl implements AnalyticResponse {
   readonly originalUrl = Math.random().toString()
   readonly shortUrl = Math.random().toString()
   readonly nbClicks = Math.random()

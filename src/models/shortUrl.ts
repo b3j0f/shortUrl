@@ -2,9 +2,12 @@ import { nanoid } from 'nanoid'
 import { checkHttpUrl } from '../lib/url'
 
 import config from '../config'
-import type { ShortUrlStat } from '../types/stat'
+import type { ShortUrlData } from '../types/stat'
 
-export class ShortUrlStatImpl implements ShortUrlStat {
+/**
+ * Store data which contains all originalUrl, shortUrl and nbClicks
+ */
+export class ShortUrlDataImpl implements ShortUrlData {
   readonly originalUrl: string
   readonly shortUrl: string
   private _nbClicks: number
@@ -27,6 +30,9 @@ export class ShortUrlStatImpl implements ShortUrlStat {
     return this._nbClicks
   }
 
+  /**
+   * Increment number of clicks
+   */
   click (): void {
     this._nbClicks++
   }

@@ -1,23 +1,36 @@
 import { toStatResponse } from '../lib/shortUrl'
-import type { ShortUrlStat } from '../types/stat'
+import type { ShortUrlData } from '../types/stat'
 import type { Store } from '../types/store'
-import type { ShortUrlStatResponse } from '../types/url'
+import type { AnalyticResponse } from '../types/url'
 
+/**
+ * In charge of storing `ShortUrlStat`s
+ */
 export class StoreImpl implements Store {
-  statsByShortUrl: Record<string, ShortUrlStat>
-  constructor (statsByShortUrl: Record<string, ShortUrlStat> = {}) {
+  statsByShortUrl: Record<string, ShortUrlData>
+  constructor (statsByShortUrl: Record<string, ShortUrlData> = {}) {
     this.statsByShortUrl = statsByShortUrl
   }
 
-  saveStat (stat: ShortUrlStat): void {
+  /**
+   * Store input stat
+   */
+  saveStat (stat: ShortUrlData): void {
     this.statsByShortUrl[stat.shortUrl] = stat
   }
 
-  getStats (): ShortUrlStatResponse[] {
+  /**
+   * @returns all stored stats.
+   */
+  getStats (): AnalyticResponse[] {
     return Object.values(this.statsByShortUrl).map(toStatResponse)
   }
 
-  getStat (shortUrl: string): ShortUrlStat | undefined {
+  /**
+   * According to input short url, return associated statistics
+   * @returns associated stats or undefined if short url is not already saved
+   */
+  getStat (shortUrl: string): ShortUrlData | undefined {
     return this.statsByShortUrl[shortUrl]
   }
 }

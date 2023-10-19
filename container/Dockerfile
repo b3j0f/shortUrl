@@ -19,13 +19,11 @@ RUN yarn install
 FROM build AS test
 
 RUN yarn run lint
+RUN yarn test
 
-FROM build AS dev
+FROM test AS packaging
 
-COPY nodemon.json /app/nodemon.json
-
-FROM sources AS packaging
-
+RUN rm -rf node_modules
 ENV NODE_ENV production
 RUN yarn install --silent
 RUN yarn global add pkg tsc

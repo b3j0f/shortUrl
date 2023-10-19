@@ -1,8 +1,14 @@
-export interface ShortUrlResponse {
+/**
+ * Response of service registration
+ */
+export interface RegistrationResponse {
   readonly originalUrl: string
   readonly shortUrl: string
 }
 
-export interface ShortUrlStatResponse extends ShortUrlResponse {
+/**
+ * Response of service analytics
+ */
+export interface AnalyticResponse extends RegistrationResponse {
   readonly nbClicks: number
 }

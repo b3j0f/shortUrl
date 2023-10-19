@@ -1,17 +1,17 @@
 import { describe, expect, test } from '@jest/globals'
 import config from '../../../src/config'
-import { ShortUrlStatImpl } from '../../../src/models/stat'
+import { ShortUrlDataImpl } from '../../../src/models/shortUrl'
 import { toStatResponse } from '../../../src/lib/shortUrl'
 
 describe('Stat', () => {
   test('lunii is an invalid url', () => {
-    expect(() => new ShortUrlStatImpl('')).toThrowError('invalid URL')
-    expect(() => new ShortUrlStatImpl('https://lunii')).toThrowError('invalid URL')
+    expect(() => new ShortUrlDataImpl('')).toThrowError('invalid URL')
+    expect(() => new ShortUrlDataImpl('https://lunii')).toThrowError('invalid URL')
   })
 
   test('lunii url', () => {
     const originalUrl = 'https://lunii.com'
-    const stat = new ShortUrlStatImpl(originalUrl)
+    const stat = new ShortUrlDataImpl(originalUrl)
 
     // test saved stat
     expect(stat.shortUrl.length).toBe(config.shortUrlLength)
