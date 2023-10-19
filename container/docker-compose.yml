@@ -2,25 +2,34 @@
 version: '2'
 
 services:
-  shorturl:
-    container_name: shorturl
+  dev:
+    container_name: shorturl-dev
     build:
       dockerfile: ./container/Dockerfile
       context: ..
-      # target: dev
-    # command: yarn run dev
+      target: dev
+    command: yarn run dev
     volumes:
       - .:/app/
       - /app/node_modules
     ports:
       - "3000:3000"
-    depends_on:
-      - postgres
-    environment:
-      DATABASE_URL: postgres://shorturl-user:shorturl-pwd@postgres/shorturl-db
-  postgres:
-    image: postgres:16-alpine
-    environment:
-      POSTGRES_PASSWORD: shorturl-pwd
-      POSTGRES_USER: shorturl-user
-      POSTGRES_DB: shorturl-db
+  test:
+    container_name: shorturl-test
+    build:
+      dockerfile: ./container/Dockerfile
+      context: ..
+      target: test
+    command: yarn run test
+    volumes:
+      - .:/app/
+      - /app/node_modules
+    ports:
+      - "3000:3000"
+  prod:
+    container_name: shorturl
+    build:
+      dockerfile: ./container/Dockerfile
+      context: ..
+    ports:
+      - "3000:3000"

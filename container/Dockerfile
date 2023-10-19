@@ -2,29 +2,27 @@ FROM node:20-alpine AS sources
 
 WORKDIR /app
 
-COPY package.json ./
-COPY yarn.lock ./
-COPY src/ ./
+COPY package.json /app/package.json
+COPY yarn.lock /app/yarn.lock
+COPY src /app/src
 
-FROM sources AS test-build
+FROM sources AS build
 
-COPY .eslintrc.json ./
-COPY tsconfig.json ./
+COPY .eslintrc.json /app/.eslintrc
+COPY tsconfig.json /app/tsconfig.json
+COPY .env.default /app/.env
 
-COPY test/ ./
+COPY tests /app/tests
 
-RUN yarn install --silent
+RUN yarn install
 
-FROM test-build AS test
+FROM build AS test
 
 RUN yarn run lint
-RUN yarn run test
 
-FROM test-build AS dev
+FROM build AS dev
 
-COPY nodemon.json ./
-
-RUN yarn run dev
+COPY nodemon.json /app/nodemon.json
 
 FROM sources AS packaging
 

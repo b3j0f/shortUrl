@@ -1,6 +1,6 @@
 import { toResponse } from '../lib/shortUrl'
 import { ShortUrlStatImpl } from '../models/stat'
-import { StoreImpl } from '../models/store'
+import { StoreImpl } from '../store/store'
 import { EventEmitterImpl } from '../subscribers/emitter'
 import type { Store } from '../types/store'
 import type { EventEmitter } from '../types/subscribers'

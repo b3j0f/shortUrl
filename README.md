@@ -5,7 +5,7 @@ This technical test is about a shortener url service implemented in typescript.
 ## Setup
 
 - Install [docker](https://www.docker.com/): for interoperability and deployment pre-test concerns. Optionnally, you can install the cli tools [docker-compose](https://docs.docker.com/compose/) and [make](https://www.gnu.org/software/make/) in order to implify container management.
-- Install [yarn](https://classic.yarnpkg.com/): to manage the service implementation, build a binary and test sources.
+- Install [yarn](https://classic.yarnpkg.com/): to manage the service implementation, build a binary and test sources. Then launch `yarn` in a terminal.
 
 ### Configuration
 
@@ -26,8 +26,9 @@ Setting:
 
 #### Docker
 
-- ```make up```: pull images, kill orphan containers and start containers in background.
-- ```make dev```: kill orphan docker containers and start docker containers in dev mode in background.
+- ```make prod```: start container in prod mode.
+- ```make dev```: start container in dev mode.
+- ```make test```: start container in test mode.
 
 #### Yarn
 
