@@ -1,10 +1,9 @@
 import { ShortUrlStatImpl } from '../models/stat'
 import { StoreImpl } from '../models/store'
 import { EventEmitterImpl } from '../subscribers/emitter'
-import type { ShortUrlStat } from '../types/stat'
 import type { Store } from '../types/store'
 import type { EventEmitter } from '../types/subscribers'
-import { ShortUrlStatResponse } from '../types/url'
+import type { ShortUrlResponse, ShortUrlStatResponse } from '../types/url'
 
 export class ShortUrl {
   store: Store
@@ -15,7 +14,7 @@ export class ShortUrl {
     this.eventEmitter = eventEmitter
   }
 
-  registerUrl (originalUrl: string): ShortUrlStat {
+  registerUrl (originalUrl: string): ShortUrlResponse {
     const stat = new ShortUrlStatImpl(originalUrl)
 
     this.store.saveStat(stat)

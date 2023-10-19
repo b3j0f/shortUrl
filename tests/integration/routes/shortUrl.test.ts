@@ -22,7 +22,7 @@ describe('redirect', () => {
   })
 
   test('post urls', async () => {
-    const urls = new Array(5).fill(null).map(() => `https://lunii-${Math.round(Math.random()*1000)}.com`)
+    const urls = new Array(5).fill(null).map(() => `https://lunii-${Math.round(Math.random() * 1000)}.com`)
 
     const stats = await Promise.all(urls.map(async url => {
       const registrationResp = await request(app).post('/api/shorturl').send({ url })
