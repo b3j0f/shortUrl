@@ -4,8 +4,9 @@ This technical test is about a shortener url service implemented in typescript.
 
 ## Setup
 
-- Install [docker](https://www.docker.com/): for interoperability and deployment pre-test concerns. Optionnally, you can install the cli tools [docker-compose](https://docs.docker.com/compose/) and [make](https://www.gnu.org/software/make/) in order to implify container management.
-- Install [yarn](https://classic.yarnpkg.com/): to manage the service implementation, build a binary and test sources. Then launch `yarn` in a terminal.
+- Install [docker](https://www.docker.com/): for service execution in a docker container. Optionnally, you can install the cli tools [docker-compose](https://docs.docker.com/compose/) and [make](https://www.gnu.org/software/make/) in order to make easier the container management.
+- Install [yarn](https://classic.yarnpkg.com/): to manage the service implementation, build a binary and test sources.
+- Tape `yarn` in a terminal in order to install node_modules.
 
 ### Configuration
 
@@ -20,15 +21,15 @@ Setting:
 
 - in your local environment if you want to execute locally the server.
 - in a file `.env` (default is `.env.default`).
-- in the file `container/docker-compose.yml` for an execution with docker.
+- in the file `container/docker-compose.yml` for an execution with docker in the [properties](https://docs.docker.com/compose/environment-variables/set-environment-variables/) `services/shorturl/environment`.
 
 ### Commands
 
 #### Docker
 
-- ```make prod```: start container in prod mode.
-- ```make dev```: start container in dev mode.
-- ```make test```: start container in test mode.
+- ```make up```: start container in prod mode.
+- ```make build```: build the container.
+- ```make down```: stop the container and remove all related containers.
 
 #### Yarn
 
@@ -51,12 +52,23 @@ Dev configuration files are at the root:
 - `yarn.lock`: project dependencies listing.
 - `.env.default`: default `.env` file.
 
+#### Architecture
+
+The architecture use logical layers and IoC to implement the server.
+
+- `src/main.ts` is the entry point, which use `src/loaders` to start the server (weaving middleware, routes and configuration initialisation).
+- `src/types` contains all interfaces.
+- `src/routes` contains all routes which (as controller) use services in `src/services`
+- `src/services` contains services depending with Dependency Injection to a store and en event emitter.
+- `src/store` and `src/subscribers` contain respectively implemnetation of store and event emitters.
+- `src/lib` contain tool functions (validate an url, transform a data to an interface, etc.).
+
 ### Tests
 
 The directory `tests` contains all test files separataed in both `unit tests` and `integration tests`.
 
-The hierarchy in `unit tests` respect the hierarchy of the sources in `src`.
+The hierarchy in `unit tests` and `integration tests` respect the hierarchy of the sources in `src`.
 
-### Containers
+### Container
 
 The directory `container` contains a Dockerfile image and a docker-compose file.
