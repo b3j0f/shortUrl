@@ -1,5 +1,5 @@
 import type { Application, Request, Response } from 'express'
-import { ShortUrl } from '../services/url'
+import { ShortUrl } from '../services/shortUrl'
 
 const shortUrl = new ShortUrl()
 

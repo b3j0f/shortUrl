@@ -1,4 +1,4 @@
-import { statToResponse } from '../lib/shortUrl'
+import { toStatResponse } from '../lib/shortUrl'
 import type { ShortUrlStat } from '../types/stat'
 import type { Store } from '../types/store'
 import type { ShortUrlStatResponse } from '../types/url'
@@ -14,7 +14,7 @@ export class StoreImpl implements Store {
   }
 
   getStats (): ShortUrlStatResponse[] {
-    return Object.values(this.statsByShortUrl).map(statToResponse)
+    return Object.values(this.statsByShortUrl).map(toStatResponse)
   }
 
   getStat (shortUrl: string): ShortUrlStat | undefined {

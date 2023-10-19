@@ -1,5 +1,5 @@
 import { describe, expect, test } from '@jest/globals'
-import { statToResponse } from '../../../src/lib/shortUrl'
+import { toResponse, toStatResponse } from '../../../src/lib/shortUrl'
 import type { ShortUrlStatResponse } from '../../../src/types/url'
 
 class ShortUrlStatImpl implements ShortUrlStatResponse {
@@ -8,14 +8,25 @@ class ShortUrlStatImpl implements ShortUrlStatResponse {
   readonly nbClicks = Math.random()
 }
 
-describe('statToResponse', () => {
+describe('toStatResponse', () => {
   test('random values', () => {
     const stat = new ShortUrlStatImpl()
 
-    expect(statToResponse(stat)).toEqual({
+    expect(toStatResponse(stat)).toEqual({
       originalUrl: stat.originalUrl,
       shortUrl: stat.shortUrl,
       nbClicks: stat.nbClicks
+    })
+  })
+})
+
+describe('toResponse', () => {
+  test('random values', () => {
+    const stat = new ShortUrlStatImpl()
+
+    expect(toResponse(stat)).toEqual({
+      originalUrl: stat.originalUrl,
+      shortUrl: stat.shortUrl
     })
   })
 })

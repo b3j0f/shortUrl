@@ -1,7 +1,7 @@
 import { describe, expect, test } from '@jest/globals'
 import { ShortUrlStatImpl } from '../../../src/models/stat'
-import { statToResponse } from '../../../src/lib/shortUrl'
-import { ShortUrl } from '../../../src/services/url'
+import { toStatResponse } from '../../../src/lib/shortUrl'
+import { ShortUrl } from '../../../src/services/shortUrl'
 
 const service = new ShortUrl()
 
@@ -25,7 +25,7 @@ describe('shortUrl', () => {
 
         expect(service.click(shortUrl)).toBe(url)
 
-        return statToResponse(new ShortUrlStatImpl(url, shortUrl, 1))
+        return toStatResponse(new ShortUrlStatImpl(url, shortUrl, 1))
       }
     ))
 

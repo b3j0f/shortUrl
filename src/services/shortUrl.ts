@@ -1,3 +1,4 @@
+import { toResponse } from '../lib/shortUrl'
 import { ShortUrlStatImpl } from '../models/stat'
 import { StoreImpl } from '../models/store'
 import { EventEmitterImpl } from '../subscribers/emitter'
@@ -19,7 +20,7 @@ export class ShortUrl {
 
     this.store.saveStat(stat)
 
-    return stat
+    return toResponse(stat)
   }
 
   getStats (): ShortUrlStatResponse[] {

@@ -1,7 +1,7 @@
 import { describe, expect, test } from '@jest/globals'
 import config from '../../../src/config'
 import { ShortUrlStatImpl } from '../../../src/models/stat'
-import { statToResponse } from '../../../src/lib/shortUrl'
+import { toStatResponse } from '../../../src/lib/shortUrl'
 
 describe('Stat', () => {
   test('lunii is an invalid url', () => {
@@ -26,7 +26,7 @@ describe('Stat', () => {
     expect(stat.nbClicks).toBe(nbClicks)
 
     // test saved stat
-    expect(statToResponse(stat)).toEqual({
+    expect(toStatResponse(stat)).toEqual({
       originalUrl: stat.originalUrl,
       shortUrl: stat.shortUrl,
       nbClicks

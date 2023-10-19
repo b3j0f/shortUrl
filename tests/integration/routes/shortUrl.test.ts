@@ -3,7 +3,7 @@ import request from 'supertest'
 
 import app from '../../../src/loaders/app'
 import { ShortUrlStatImpl } from '../../../src/models/stat'
-import { statToResponse } from '../../../src/lib/shortUrl'
+import { toStatResponse } from '../../../src/lib/shortUrl'
 
 describe('redirect', () => {
   test('invalid url', async () => {
@@ -33,7 +33,7 @@ describe('redirect', () => {
 
       await request(app).get(`/api/shorturl/${stat.shortUrl}`).expect(302).expect('Location', url)
 
-      return statToResponse(stat)
+      return toStatResponse(stat)
     }))
 
     const statsResp = await request(app).get('/api/shorturl/analytics')
