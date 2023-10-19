@@ -1,33 +1,21 @@
 import { describe, expect, test } from '@jest/globals'
-import { getOriginalUrl, getShortUrlStat, newShortUrlStat, checkHttpUrl } from '../../src/url'
+import { ShortUrl } from '../../src/services/url'
 import type { ShortUrlStat } from '../../src/types/url'
-
-const luniiUrl = 'https://lunii.com'
+import { NANOID_SIZE } from '../../src/models/stat'
 
 let luniiStat: ShortUrlStat
 
-describe('checkHttpUrl', () => {
-  test('invalid url', () => {
-    expect(checkHttpUrl('')).toBeFalsy()
-    expect(checkHttpUrl('https://lunii')).toBeFalsy()
-    expect(checkHttpUrl('ftp://lunii.com')).toBeFalsy()
-  })
-
-  test('lunii url', () => {
-    expect(checkHttpUrl('http:lunii.com')).toBeTruthy()
-    expect(checkHttpUrl(luniiUrl)).toBeTruthy()
-  })
-})
+const shortUrl = new ShortUrl()
 
 describe('newShortUrl', () => {
   test('lunii is an invalid url', () => {
-    expect(() => newShortUrlStat('')).toThrowError('invalid url')
-    expect(() => newShortUrlStat('https://lunii')).toThrowError('invalid url')
+    expect(() => shortUrl.postUrl('')).toThrowError('invalid url')
+    expect(() => shortUrl.postUrl('https://lunii')).toThrowError('invalid url')
   })
 
   test('lunii url', () => {
-    luniiStat = newShortUrlStat('https://lunii.com')
-    expect(luniiStat.shortUrl.length).toEqual(6)
+    luniiStat = shortUrl.postUrl('https://lunii.com')
+    expect(luniiStat.shortUrl.length).toEqual(NANOID_SIZE)
   })
 })
 
@@ -37,16 +25,16 @@ test('basic test', () => {
   expect(luniiStat.originalUrl).not.toBe('')
 })
 
-describe('getOriginalUrl', () => {
+describe('click', () => {
   test('empty url', () => {
-    expect(getOriginalUrl('')).toBeUndefined()
+    expect(shortUrl.click('')).toBeUndefined()
   })
 
   test('lunii url', () => {
     expect(luniiStat.nbClicks).toEqual(0)
     const calls = Math.floor(Math.random() * 1000)
     for (let call = 0; call < calls; call++) {
-      expect(getOriginalUrl(luniiStat.shortUrl)).toEqual(luniiStat.originalUrl)
+      expect(shortUrl.click(luniiStat.shortUrl)).toEqual(luniiStat.originalUrl)
     }
     expect(luniiStat.nbClicks).toEqual(calls)
   })
@@ -54,10 +42,10 @@ describe('getOriginalUrl', () => {
 
 describe('getShortUrlStat', () => {
   test('empty url', () => {
-    expect(getShortUrlStat('')).toBeUndefined()
+    expect(shortUrl.getStat('')).toBeUndefined()
   })
 
   test('lunii url', () => {
-    expect(getShortUrlStat(luniiStat.shortUrl)).toEqual(luniiStat)
+    expect(shortUrl.getStat(luniiStat.shortUrl)).toEqual(luniiStat)
   })
 })

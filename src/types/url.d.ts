@@ -1,8 +1,9 @@
 export interface ShortUrl {
-  originalUrl: string
-  shortUrl: string
+  readonly originalUrl: string
+  readonly shortUrl: string
 }
 
 export interface ShortUrlStat extends ShortUrl {
-  nbClicks: number
+  readonly nbClicks: number
+  click: () => void
 }

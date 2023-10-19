@@ -1,7 +1,7 @@
 import express from 'express'
 import type { Application, Request, Response } from 'express'
 
-import { getShortUrlStat, newShortUrlStat, getOriginalUrl } from './url'
+import { ShortUrl } from './services/url'
 
 const HOST: string = process.env.HOST ?? '0.0.0.0'
 const PORT: number = parseInt(process.env.PORT ?? '3000')
@@ -16,9 +16,9 @@ app.get('/ping', (_, res: Response) => { // health check
 })
 
 app.get('/api/shorturl/:shorturl', (req: Request, res: Response) => {
-  const originalUrl = getOriginalUrl(req.params.shorturl)
+  const originalUrl = new ShortUrl().click(req.params.shorturl)
   if (originalUrl === undefined) {
-    return res.send(404)
+    return res.status(404)
   }
 
   res.redirect(originalUrl)
@@ -26,14 +26,20 @@ app.get('/api/shorturl/:shorturl', (req: Request, res: Response) => {
 
 app.post('/api/shorturl', (req: Request, res: Response) => {
   try {
-    newShortUrlStat(req.body)
+    new ShortUrl().postUrl(req.body)
   } catch {
-    res.send({ error: 'invalid Url' })
+    res.json({ error: 'invalid Url' })
   }
 })
 
 app.get('/api/shorturl/analytics', (req: Request, res: Response) => {
-  res.send(getShortUrlStat(req.body))
+  const stat = new ShortUrl().getStat(req.body)
+
+  if (typeof stat === 'undefined') {
+    return res.status(404)
+  }
+
+  res.json(stat)
 })
 
 app.listen(PORT, HOST, () => {
