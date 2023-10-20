@@ -54,7 +54,7 @@ Dev configuration files are at the root:
 
 #### Architecture
 
-The architecture use logical layers and IoC to implement the server.
+The architecture use logical layers, separation of concerns and dependency injection to implement the server.
 
 - `src/main.ts` is the entry point, which use `src/loaders` to start the server (weaving middleware, routes and configuration initialisation).
 - `src/types` contains all interfaces.
