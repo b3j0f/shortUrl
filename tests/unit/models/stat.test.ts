@@ -1,16 +1,16 @@
 import { describe, expect, test } from '@jest/globals'
 import config from '../../../src/config'
-import { ShortUrlDataImpl } from '../../../src/models/shortUrl'
+import { ShortUrlControllerImpl } from '../../../src/models/shortUrl'
 
 describe('Stat', () => {
   test('lunii is an invalid url', () => {
-    expect(() => new ShortUrlDataImpl('')).toThrowError('invalid URL')
-    expect(() => new ShortUrlDataImpl('https://lunii')).toThrowError('invalid URL')
+    expect(() => new ShortUrlControllerImpl('')).toThrowError('invalid URL')
+    expect(() => new ShortUrlControllerImpl('https://lunii')).toThrowError('invalid URL')
   })
 
   test('lunii url', () => {
     const originalUrl = 'https://lunii.com'
-    const data = new ShortUrlDataImpl(originalUrl)
+    const data = new ShortUrlControllerImpl(originalUrl)
 
     // test saved stat
     expect(data.shortUrl.length).toBe(config.shortUrlLength)
@@ -25,13 +25,13 @@ describe('Stat', () => {
     expect(data.nbClicks).toBe(nbClicks)
 
     // test saved data
-    expect(data.toRegistrationResponse()).toEqual({
+    expect(data.getRegistrationData()).toEqual({
       originalUrl: data.originalUrl,
       shortUrl: data.shortUrl
     })
 
     // test saved data
-    expect(data.toAnalyticResponse()).toEqual({
+    expect(data.getAnalyticData()).toEqual({
       originalUrl: data.originalUrl,
       shortUrl: data.shortUrl,
       nbClicks

@@ -2,12 +2,12 @@ import { nanoid } from 'nanoid'
 import { checkHttpUrl } from '../lib/url'
 
 import config from '../config'
-import type { AnalyticResponse, RegistrationResponse, ShortUrlData } from '../types/url'
+import type { ShortUrlAnalyticData, ShortUrlRegistrationData, ShortUrlDataController } from '../types/shortUrl'
 
 /**
- * Store data which contains all originalUrl, shortUrl and nbClicks
+ * Service dedicated to manage ShortUrlData
  */
-export class ShortUrlDataImpl implements ShortUrlData {
+export class ShortUrlControllerImpl implements ShortUrlDataController {
   readonly originalUrl: string
   readonly shortUrl: string
   private _nbClicks: number
@@ -34,17 +34,17 @@ export class ShortUrlDataImpl implements ShortUrlData {
     this._nbClicks++
   }
 
-  toRegistrationResponse (): RegistrationResponse {
+  getRegistrationData (): ShortUrlRegistrationData {
     return {
       originalUrl: this.originalUrl,
       shortUrl: this.shortUrl
     }
   }
 
-  toAnalyticResponse (): AnalyticResponse {
+  getAnalyticData (): ShortUrlAnalyticData {
     return {
       nbClicks: this._nbClicks,
-      ...this.toRegistrationResponse()
+      ...this.getRegistrationData()
     }
   }
 }

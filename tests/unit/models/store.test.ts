@@ -1,12 +1,12 @@
 import { describe, expect, test } from '@jest/globals'
 import { StoreImpl } from '../../../src/store/store'
-import { ShortUrlDataImpl } from '../../../src/models/shortUrl'
+import { ShortUrlControllerImpl } from '../../../src/models/shortUrl'
 
 const store = new StoreImpl()
 
 describe('store', () => {
   test('key exist', () => {
-    const data = new ShortUrlDataImpl('https://lunii.com')
+    const data = new ShortUrlControllerImpl('https://lunii.com')
     expect(store.get(data.shortUrl)).toBeUndefined()
 
     store.save(data)
