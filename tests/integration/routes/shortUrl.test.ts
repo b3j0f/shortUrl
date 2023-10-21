@@ -3,7 +3,6 @@ import request from 'supertest'
 
 import app from '../../../src/loaders/app'
 import { ShortUrlDataImpl } from '../../../src/models/shortUrl'
-import { toStatResponse } from '../../../src/lib/shortUrl'
 
 describe('redirect', () => {
   test('invalid url', async () => {
@@ -27,13 +26,13 @@ describe('redirect', () => {
     const stats = await Promise.all(urls.map(async url => {
       const registrationResp = await request(app).post('/api/shorturl').send({ url })
 
-      const stat = new ShortUrlDataImpl(url, registrationResp.body.shortUrl, 1)
+      const data = new ShortUrlDataImpl(url, registrationResp.body.shortUrl, 1)
 
       expect(registrationResp.body.originalUrl).toBe(url)
 
-      await request(app).get(`/api/shorturl/${stat.shortUrl}`).expect(302).expect('Location', url)
+      await request(app).get(`/api/shorturl/${data.shortUrl}`).expect(302).expect('Location', url)
 
-      return toStatResponse(stat)
+      return data.toAnalyticResponse()
     }))
 
     const statsResp = await request(app).get('/api/shorturl/analytics')

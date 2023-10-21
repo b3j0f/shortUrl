@@ -1,7 +1,6 @@
 import { describe, expect, test } from '@jest/globals'
 import config from '../../../src/config'
 import { ShortUrlDataImpl } from '../../../src/models/shortUrl'
-import { toStatResponse } from '../../../src/lib/shortUrl'
 
 describe('Stat', () => {
   test('lunii is an invalid url', () => {
@@ -11,24 +10,30 @@ describe('Stat', () => {
 
   test('lunii url', () => {
     const originalUrl = 'https://lunii.com'
-    const stat = new ShortUrlDataImpl(originalUrl)
+    const data = new ShortUrlDataImpl(originalUrl)
 
     // test saved stat
-    expect(stat.shortUrl.length).toBe(config.shortUrlLength)
-    expect(stat.originalUrl).toBe(originalUrl)
+    expect(data.shortUrl.length).toBe(config.shortUrlLength)
+    expect(data.originalUrl).toBe(originalUrl)
 
     // test nbClicks
-    expect(stat.nbClicks).toBe(0)
+    expect(data.nbClicks).toBe(0)
     const nbClicks = Math.round(Math.random() * 100)
     for (let i = 0; i < nbClicks; i++) {
-      stat.click()
+      data.click()
     }
-    expect(stat.nbClicks).toBe(nbClicks)
+    expect(data.nbClicks).toBe(nbClicks)
 
-    // test saved stat
-    expect(toStatResponse(stat)).toEqual({
-      originalUrl: stat.originalUrl,
-      shortUrl: stat.shortUrl,
+    // test saved data
+    expect(data.toRegistrationResponse()).toEqual({
+      originalUrl: data.originalUrl,
+      shortUrl: data.shortUrl
+    })
+
+    // test saved data
+    expect(data.toAnalyticResponse()).toEqual({
+      originalUrl: data.originalUrl,
+      shortUrl: data.shortUrl,
       nbClicks
     })
   })

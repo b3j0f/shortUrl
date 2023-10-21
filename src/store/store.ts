@@ -1,7 +1,5 @@
-import { toStatResponse } from '../lib/shortUrl'
-import type { ShortUrlData } from '../types/stat'
 import type { Store } from '../types/store'
-import type { AnalyticResponse } from '../types/url'
+import type { ShortUrlData } from '../types/url'
 
 /**
  * In charge of storing `ShortUrlStat`s
@@ -15,22 +13,22 @@ export class StoreImpl implements Store {
   /**
    * Store input stat
    */
-  saveStat (stat: ShortUrlData): void {
+  save (stat: ShortUrlData): void {
     this.statsByShortUrl[stat.shortUrl] = stat
   }
 
   /**
    * @returns all stored stats.
    */
-  getStats (): AnalyticResponse[] {
-    return Object.values(this.statsByShortUrl).map(toStatResponse)
+  getAll (): ShortUrlData[] {
+    return Object.values(this.statsByShortUrl)
   }
 
   /**
    * According to input short url, return associated statistics
    * @returns associated stats or undefined if short url is not already saved
    */
-  getStat (shortUrl: string): ShortUrlData | undefined {
+  get (shortUrl: string): ShortUrlData | undefined {
     return this.statsByShortUrl[shortUrl]
   }
 }

@@ -1,4 +1,3 @@
-import { toResponse } from '../lib/shortUrl'
 import { ShortUrlDataImpl } from '../models/shortUrl'
 import { StoreImpl } from '../store/store'
 import { EventEmitterImpl } from '../subscribers/emitter'
@@ -22,22 +21,25 @@ export class ShortUrl {
    * Register an original url and return a record with both original and short urls
    */
   registerUrl (originalUrl: string): RegistrationResponse {
-    const stat = new ShortUrlDataImpl(originalUrl)
+    const data = new ShortUrlDataImpl(originalUrl)
 
-    this.store.saveStat(stat)
+    this.store.save(data)
 
-    this.eventEmitter.emit(EventType.Register, stat)
+    const result = data.toRegistrationResponse()
 
-    return toResponse(stat)
+    this.eventEmitter.emit(EventType.Register, result)
+
+    return result
   }
 
   /**
    * Get all registered data
    */
-  getStats (): AnalyticResponse[] {
-    this.eventEmitter.emit(EventType.Stats)
+  getAnalytics (): AnalyticResponse[] {
+    const result = this.store.getAll().map(data => data.toAnalyticResponse())
+    this.eventEmitter.emit(EventType.Analytics, result)
 
-    return this.store.getStats()
+    return result
   }
 
   /**
@@ -45,15 +47,15 @@ export class ShortUrl {
    * @returns original url
    */
   click (shortUrl: string): string | undefined {
-    const stat = this.store.getStat(shortUrl)
+    const data = this.store.get(shortUrl)
 
-    if (stat !== undefined) {
-      stat.click()
-      this.store.saveStat(stat)
+    if (data !== undefined) {
+      data.click()
+      this.store.save(data)
 
-      this.eventEmitter.emit(EventType.Click, stat)
+      this.eventEmitter.emit(EventType.Click, data.toAnalyticResponse())
     }
 
-    return stat?.originalUrl
+    return data?.originalUrl
   }
 }

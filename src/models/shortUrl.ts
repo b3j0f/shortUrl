@@ -2,7 +2,7 @@ import { nanoid } from 'nanoid'
 import { checkHttpUrl } from '../lib/url'
 
 import config from '../config'
-import type { ShortUrlData } from '../types/stat'
+import type { AnalyticResponse, RegistrationResponse, ShortUrlData } from '../types/url'
 
 /**
  * Store data which contains all originalUrl, shortUrl and nbClicks
@@ -30,10 +30,21 @@ export class ShortUrlDataImpl implements ShortUrlData {
     return this._nbClicks
   }
 
-  /**
-   * Increment number of clicks
-   */
   click (): void {
     this._nbClicks++
+  }
+
+  toRegistrationResponse (): RegistrationResponse {
+    return {
+      originalUrl: this.originalUrl,
+      shortUrl: this.shortUrl
+    }
+  }
+
+  toAnalyticResponse (): AnalyticResponse {
+    return {
+      nbClicks: this._nbClicks,
+      ...this.toRegistrationResponse()
+    }
   }
 }

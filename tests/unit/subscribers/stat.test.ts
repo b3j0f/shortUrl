@@ -1,25 +1,13 @@
 import { describe, expect, test } from '@jest/globals'
-import { EventEmitterImpl } from '../../../src/subscribers/emitter'
 import { EventType } from '../../../src/types/subscribers'
 
-class EventTracker {
-  eventType: EventType | undefined
-  params: any
-
-  on (eventType: EventType, params: any): void {
-    this.eventType = eventType
-    this.params = params
-  }
-}
-
-const eventTracker = new EventTracker()
-
-const eventEmitter = new EventEmitterImpl([eventTracker])
+import { eventEmitter, eventTracker } from '../../utils'
 
 describe('Subscribers', () => {
   test('init', () => {
     expect(eventTracker.eventType).toBeUndefined()
     expect(eventTracker.params).toBeUndefined()
+    expect(eventTracker.nbCalled).toBe(0)
   })
 
   test('click', () => {
@@ -27,6 +15,7 @@ describe('Subscribers', () => {
 
     expect(eventTracker.eventType).toBe(EventType.Click)
     expect(eventTracker.params).toBe(EventType.Click)
+    expect(eventTracker.nbCalled).toBe(3)
   })
 
   test('register', () => {
@@ -34,12 +23,15 @@ describe('Subscribers', () => {
 
     expect(eventTracker.eventType).toBe(EventType.Register)
     expect(eventTracker.params).toBe(EventType.Register)
+
+    expect(eventTracker.nbCalled).toBe(6)
   })
 
   test('stats', () => {
-    eventEmitter.emit(EventType.Stats, EventType.Stats)
+    eventEmitter.emit(EventType.Analytics, EventType.Analytics)
 
-    expect(eventTracker.eventType).toBe(EventType.Stats)
-    expect(eventTracker.params).toBe(EventType.Stats)
+    expect(eventTracker.eventType).toBe(EventType.Analytics)
+    expect(eventTracker.params).toBe(EventType.Analytics)
+    expect(eventTracker.nbCalled).toBe(9)
   })
 })

@@ -4,7 +4,7 @@
 export enum EventType {
   Click = 'click',
   Register = 'register',
-  Stats = 'stats'
+  Analytics = 'stats'
 }
 
 /**

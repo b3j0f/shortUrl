@@ -36,7 +36,7 @@ const registerUrl = (app: Application): void => {
  */
 const analytics = (app: Application): void => {
   app.get('/api/shorturl/analytics', (_: Request, res: Response) => {
-    const stats = shortUrl.getStats()
+    const stats = shortUrl.getAnalytics()
 
     res.json(stats).end()
   })
